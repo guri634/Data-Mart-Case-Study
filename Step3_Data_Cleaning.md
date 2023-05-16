@@ -97,7 +97,7 @@ limit 10;
 *  1 - Young Adults
 *  2 - Middle Aged
 *  3 or 4 - Retirees
-```
+
 
 ```
 alter table weekly_sales
@@ -107,11 +107,11 @@ add column age_band varchar(12) after segment;
 ```
 update weekly_sales
 set age_band = case 
-					when segment like '%1' then 'Young Adults'
+		    when segment like '%1' then 'Young Adults'
                     when segment like '%2' then 'Middle Aged'
                     when segment like '%3' then 'Retirees'
                     when segment like '%4' then 'Retirees'
-                    end;
+		end;
                     
 select * from weekly_sales 
 limit 10;
