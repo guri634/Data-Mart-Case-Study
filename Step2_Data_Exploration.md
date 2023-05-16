@@ -17,10 +17,10 @@ from weekly_sales;
 **Step 2: What range of week numbers are missing from the dataset?**
 ```
 with weekNumbers as (
-	select (@rn := @rn + 1) as week_number
-	from weekly_sales t cross join
-		 (select @rn := 0) params
-	limit 52)
+		select (@rn := @rn + 1) as week_number
+		from weekly_sales t cross join
+		 	(select @rn := 0) params
+		limit 52)
 select distinct wn.week_number
 from weekNumbers wn
 left outer join weekly_sales ws
@@ -54,14 +54,14 @@ group by platform;
 **Step 6: What is the percentage of sales for Retail vs Shopify for each month?**
 ```
 with monthlyTransactions as (
-							 select
-							 calendar_year, 
-							 month_number, 
-							 platform, 
-							 sum(sales) as monthly_sales
-							 from weekly_sales
-							 group by calendar_year, month_number, platform
-							)
+	 		     select
+			     calendar_year, 
+			     month_number, 
+			     platform, 
+			     sum(sales) as monthly_sales
+			     from weekly_sales
+			     group by calendar_year, month_number, platform
+)
 select
   calendar_year, 
   month_number, 
@@ -77,13 +77,13 @@ select
 **Step 7: What is the percentage of sales by demographic for each year in the dataset?**
 ```
 with yearlySales as (
-							 select
-							 calendar_year, 
-							 demographic, 
-							 sum(sales) as yearly_sales
-							 from weekly_sales
-							 group by calendar_year, demographic
-							)
+		     select
+	  	     calendar_year, 
+		     demographic, 
+		     sum(sales) as yearly_sales
+		     from weekly_sales
+		     group by calendar_year, demographic
+)
 select
   calendar_year, 
   round(100 * max(case when demographic = 'Couples' then yearly_sales else null end) / 
